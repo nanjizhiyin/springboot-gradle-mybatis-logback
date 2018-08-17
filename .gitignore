@@ -1,0 +1,18 @@
+# IntelliJ project files
+.idea
+*.iml
+secin/*
+logs/*
+
+# gradle
+.gradle
+build
+gradle/*
+gradlew
+gradlew.bat
+out/*
+classes/*
+
+# other
+synctool/build
+syncapi/logs

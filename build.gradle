@@ -1,0 +1,31 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+task copyJar(type: Delete) {
+        delete "build/libs"
+        delete "build/tmp"
+}
+
+task copyConfig(type:Copy) {
+    from 'config'
+    into "build/config"
+}
+
+task copyDB(type:Copy){
+    from 'DB'
+    into "build/DB"
+}
+
+copyJar.dependsOn(copyConfig)
+copyConfig.dependsOn(copyDB)
+
+dependencies {
+    //testCompile('org.assertj:assertj-core:3.8.0')
+}

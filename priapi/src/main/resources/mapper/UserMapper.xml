@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.testin.mapper.pri.UserMapper">
+    <update id="updateUser" parameterType="cn.testin.entry.UserEntry">
+        update priUser
+        <set>
+            <if test="user.username != null">username=#{user.username},</if>
+            <if test="user.password != null">password=#{user.password},</if>
+            <if test="user.mobile != null">mobile=#{user.mobile},</if>
+            <if test="user.email != null">email=#{user.email},</if>
+            <if test="user.job != null">job=#{user.job}</if>
+        </set>
+        where uid=#{user.uid}
+    </update>
+    <insert id="addUser" parameterType="cn.testin.entry.UserEntry">
+        INSERT INTO priUser(uid,username,password,mobile,job,email)
+        values(
+        #{user.uid},
+        #{user.username},
+        #{user.password},
+        #{user.mobile},
+        #{user.job},
+        #{user.email}
+            )
+    </insert>
+    <select id="search" resultType="java.util.Map">
+        SELECT confKey,confValue FROM priUser
+        <where>
+            <if test="status != null and status != '' ">
+                AND status = #{status}
+            </if>
+            <if test="email != null and email != '' ">
+                AND email LIKE CONCAT('%','${email}','%' )
+            </if>
+            <if test="startTime != null and startTime != '' ">
+                AND startTime <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                AND endTime <![CDATA[ < ]]> #{endTime}
+            </if>
+        </where>
+        LIMIT #{start},#{size}
+    </select>
+</mapper>

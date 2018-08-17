@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.testin.mapper.pri.SysConfigMapper">
+    <select id="getConfByType" resultType="java.util.Map">
+        SELECT confKey,confValue FROM priSysConfig
+        <if test="type != null and type != '' ">
+            WHERE confKey LIKE CONCAT('${type}','%' )
+        </if>
+    </select>
+    <insert id="saveConfigInfo" parameterType="java.util.List">
+        INSERT INTO priSysConfig(confKey,confValue)
+        values
+        <foreach collection="itemList" item="item" index="index" separator=",">
+            (
+            #{item.confKey},
+            #{item.confValue}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        confKey = VALUES(confKey),
+        confValue = VALUES(confValue)
+    </insert>
+</mapper>

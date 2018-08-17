@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="cn.testin.mapper.secin.SecinMapper">
+    <select id="getAppList" resultType="java.util.Map">
+        SELECT p.appName,p.appMd5 FROM SecPkg p,(SELECT MAX(p.pkid) as pkid FROM SecPkg p group by p.appMd5) a WHERE a.pkid = p.pkid
+    </select>
+</mapper>
